@@ -1,0 +1,51 @@
+{% load static %}
+
+<ul class="nav justify-content-center">
+    <ul class="pagination pagination-sm">
+        {% if page.has_previous %}
+            <li class="page-item activated">
+              <a class="page-link" href="?page=1" tabindex="-1" aria-label="Previous">
+                <span aria-hidden="true">&laquo;</span>
+                <span class="sr-only">Previous</span>
+              </a>
+            </li>
+        {% else %}
+            <li class="page-item disabled">
+              <a class="page-link" tabindex="-1" aria-label="Previous">
+                <span aria-hidden="true">&laquo;</span>
+                <span class="sr-only">Previous</span>
+              </a>
+            </li>
+        {% endif %}
+
+        {% for x in page.paginator %}
+            {% if page.number == x.number %}
+                <li class="page-item active">
+                    <a class="page-link" href="?page={{ page.number }}">{{ page.number }}<span class="sr-only">(current)</span></a>
+                </li>
+            {% else %}
+                <li class="page-item"><a class="page-link" href="?page={{ x.number }}">{{ x.number }}</a></li>
+            {% endif %}
+        {% endfor %}
+
+
+
+
+        {% if page.has_next %}
+            <li class="page-item activated">
+              <a class="page-link" href="?page={{ page.paginator.num_pages }}" aria-label="Next">
+                <span aria-hidden="true">&raquo;</span>
+                <span class="sr-only">Next</span>
+              </a>
+            </li>
+        {% else %}
+            <li class="page-item disabled">
+              <a class="page-link" aria-label="Next">
+                <span aria-hidden="true">&raquo;</span>
+                <span class="sr-only">Next</span>
+              </a>
+            </li>
+        {% endif %}
+    </ul>
+</ul>
+<br>

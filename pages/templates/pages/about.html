@@ -1,0 +1,13 @@
+{% extends "pages/base.html" %}
+{% load static %}
+{% block title %} Обо мне {% endblock %}
+{% block content %}
+
+
+        <h1 class="text-centere">Обо мне</h1>
+
+    {% for item in about %}
+        {% autoescape off %} {{ item.text|linebreaks }} {% endautoescape %}
+    {% endfor %}
+
+{% endblock %}

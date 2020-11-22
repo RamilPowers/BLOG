@@ -1,0 +1,34 @@
+{% extends "pages/base.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block title %} Рассчитать К-фактор {% endblock %}
+{% block content %}
+<div class="row mb-3">
+    <div class="col-md-8 themed-grid-col">
+        <div class="d-flex justify-content-center">
+            <div class="col-10">
+                <h1 class="text-center">Рассчитать К-фактор</h1>
+                <br>
+                <form method="post">
+                    {% if k_factor %}
+                    <p>К-фактор: {{ k_factor }}</p>
+                    {% endif %}
+                    {% csrf_token %}
+                    <td>{{ form | crispy }}</td>
+                    <p class="text-center">
+                        <button  type="submit"  class="btn btn-primary btn-lg pull-right">Рассчитать</button>
+                    </p>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4 themed-grid-col">
+        <div class="p-4">
+            <h3>Еще калькуляторы</h3>
+            <ol class="list-unstyled">
+              <li><a href="{% url 'blog:fuel_calculator' %}">Калькулятор расхода топлива</a></li>
+            </ol>
+      </div>
+    </div>
+{% endblock %}

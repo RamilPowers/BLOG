@@ -1,0 +1,24 @@
+{% extends "pages/base.html" %}
+{% block content %}
+
+<div class="row mb-3">
+    <div class="col-md-8 themed-grid-col">
+        <div class="jumbotron">
+            <h1 class="display-4">Вы вышли</h1>
+            <p class="lead">
+                Войдите снова или зарегестрируйтесь
+            </p>
+            <hr class="my-4">
+            <a href="{% url 'login' %}">
+                <button  type="submit"  class="btn btn-primary btn-lg">Войти</button>
+            </a>
+            или
+            <a href="{% url 'signup' %}">
+                <button  type="submit"  class="btn btn-primary btn-lg">Зарегестрироваться</button>
+            </a>
+        </div>
+    </div>
+    <div class="col-md-4 themed-grid-col"></div>
+  </div>
+
+{% endblock content %}

@@ -1,0 +1,38 @@
+{% extends "pages/base.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block title %} Калькулятор расхода топлива {% endblock %}
+{% block content %}
+<div class="row mb-3">
+    <div class="col-md-8 themed-grid-col">
+        <h1 class="text-center">Калькулятор расхода топлива</h1>
+        <br>
+        <div class="d-flex justify-content-center">
+            <div class="col-10">
+                <form method="post">
+                    {% if flow and volume and delta_volume %}
+                    <p>Реальный расход на 100 км, л: {{ flow }}</p>
+                    <p>Разрешенный расход на 100 км, л: {{ form.cleaned_data.allowed_flow }}</p>
+                    <p>Максимальный объем топлива с учетом разрешенного расхода, л: {{ volume }}</p>
+                    <p>Еще можно долить, л: {{ delta_volume }}</p>
+                    {% endif %}
+                    {% csrf_token %}
+                    <td>{{ form | crispy }}</td>
+                    <p class="text-center">
+                        <button  type="submit"  class="btn btn-primary btn-lg pull-right">Рассчитать</button>
+                    </p>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4 themed-grid-col">
+        <div class="p-4">
+            <h3>Еще калькуляторы</h3>
+            <ol class="list-unstyled">
+              <li><a href="{% url 'blog:kfactor_calculator' %}">Рассчитать К-фактор</a></li>
+            </ol>
+      </div>
+    </div>
+</div>
+{% endblock %}

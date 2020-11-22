@@ -1,0 +1,34 @@
+{% extends "pages/base.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+<div class="row mb-3">
+    <div class="col-md-8 themed-grid-col">
+        <div class="jumbotron">
+            <h1 class="display-4">Регистрация</h1>
+            {% if user.is_authenticated %}
+            <p class="lead">Выйдите из текущей учетной записи, чтобы зарегестрироваться</p>
+            <hr class="my-4">
+            <a href="{% url 'logout' %}">
+                <button  type="submit"  class="btn btn-primary btn-lg">Выйти</button>
+            </a>
+            {% else %}
+                <hr class="my-4">
+                <form method="post">
+                    {% csrf_token %}
+                    <td>{{ form | crispy  }}</td>
+                    <p class="lead">
+                        <button  type="submit"  class="btn btn-primary btn-lg">Зарегестрироваться</button>
+                    </p>
+                </form>
+                <small id="hint_id_password2" class="form-text text-muted">Нажимая на кнопку Зарегестрироваться, Вы подверждаете согласие на обработку персональных данных</small>
+            {% endif %}
+        </div>
+    </div>
+    <div class="col-md-4 themed-grid-col">
+        <div class="jumbotron">
+            <h1 class="display-4">Уже есть аккаунт?</h1>
+            <p class="lead"><a href="{% url 'login' %}">Войдите!</a></p>
+
+</div>
+
+{% endblock content %}

@@ -1,0 +1,43 @@
+{% extends "pages/base.html" %}
+{% load crispy_forms_tags %}
+
+
+{% block content %}
+
+    {% if next %}
+      {% if user.is_authenticated %}
+        <p>Your account doesn't have access to this page. To proceed,
+        please login with an account that has access.</p>
+      {% else %}
+        <p>Please login to see this page.</p>
+      {% endif %}
+    {% endif %}
+
+<div class="row mb-3">
+    <div class="col-md-8 themed-grid-col">
+        <div class="jumbotron">
+            <h1 class="display-4">Вход</h1>
+            <p class="lead">Нет аккаунта? <a href="{% url 'signup' %}">Создайте!</a></p>
+            <hr class="my-4">
+            <form method="post">
+                {% csrf_token %}
+                <td>{{ form | crispy  }}</td>
+                <p class="lead">
+                    <button  type="submit"  class="btn btn-primary btn-lg">Войти</button>
+                </p>
+            </form>
+            <p><a href="{% url 'password_reset' %}">Забыли пароль?</a></p>
+        </div>
+    </div>
+    <div class="col-md-4 themed-grid-col">
+        <div class="jumbotron">
+            <h1 class="display-4">Или</h1>
+            <p class="lead">Войти с помощью</p>
+            <hr class="my-4">
+            <a href="/login/vk-oauth2"><img src="https://img.icons8.com/color/48/000000/vk-com.png"/></a>
+            <a href="{% url 'social:begin' 'google-oauth2' %}"><img src="https://img.icons8.com/color/48/000000/google-logo.png"/></a>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

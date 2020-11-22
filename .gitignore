@@ -1,0 +1,5 @@
+*.pyc
+__pycache__/
+environment_variables.py
+migrations/
+db.sqlite3

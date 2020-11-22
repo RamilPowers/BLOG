@@ -1,0 +1,76 @@
+{% extends "pages/base.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block title %}{{ post.title }}{% endblock %}
+
+
+{% block content %}
+<div class="row mb-3">
+    <div class="col-md-8 themed-grid-col">
+        <h1 class="text-center">{{ post.title }}</h1>
+        {{ post.created|date }}
+
+        {% autoescape off %} {{ post.content|linebreaks }} {% endautoescape %}
+
+        <ul class="nav justify-content-center">
+            <li class="nav-item">
+                {% if post.get_next_post %}
+                    <a class="nav-link" href="{% url 'blog:post_detail' post.get_next_post.slug %}">
+                        ‹ {{ post.get_next_post.title }}
+                    </a>
+                {% endif %}
+            </li>
+            <li class="nav-item">
+                {% if post.get_previous_post %}
+                    <a class="nav-link" href="{% url 'blog:post_detail' post.get_previous_post.slug %}">
+                        {{ post.get_previous_post.title }} ›
+                    </a>
+                {% endif %}
+            </li>
+        </ul>
+
+        <br><hr><br>
+
+        {% with comments.count as total_comments %}
+        <h4>{{ total_comments }} комментари{{ pluralize }}</h4>
+        {% endwith %}
+
+        <br>
+
+        <form action="." method="post">
+            {{ comment_form | crispy }}
+            {% csrf_token %}
+            <p class="lead">
+                <button  type="submit"  class="btn btn-primary btn-lg">Отправить</button>
+            </p>
+        </form>
+
+        <br><br>
+        {% for comment in comments %}
+            <img src="https://img.icons8.com/doodle/48/000000/user.png"/>
+            <font size="5">
+                {{ comment.name }}
+            </font>
+            <p><font class="text-muted" size="2">{{ comment.created }}</font></p>
+            <p>{{ comment.text|linebreaks }}</p>
+        {% empty %}
+            <img src="https://img.icons8.com/offices/30/000000/pencil.png"/>
+            Здесь пока еще нет комментариев. Будь первым!
+        {% endfor %}
+    </div>
+    <div class="col-md-4 themed-grid-col">
+        <div class="p-4">
+            <h3>Почитать еще</h3>
+            <ol class="list-unstyled">
+            {% for item in posts %}
+                {% if post.slug != item.slug %}
+                    <li><a href="{{ post.get_absolute_url }}">{{ item.title }}</a></li>
+                {% endif %}
+            {% empty %}
+                <a href="идти-нахуй">А нихуя и нет больше</a>
+            {% endfor %}
+            </ol>
+        </div>
+    </div>
+</div>
+{% endblock %}
