@@ -18,7 +18,7 @@ from blog.settings.base import AUTHENTICATION_BACKENDS
 class SignUpView(generic.CreateView):
     form_class = SignUpForm
     success_url = reverse_lazy('login')
-    template_name = os.path.join(BASE_DIR, "templates\\registration\signup.html")
+    template_name = os.path.join(BASE_DIR, "templates/registration/signup.html")
 """
 
 
@@ -35,7 +35,7 @@ def register(request):
                 user.is_active = False
                 current_site = get_current_site(request)
                 mail_subject = 'Подтвердите регистрацию на' + current_site.domain
-                template = os.path.join(BASE_DIR, 'templates\\registration\\account_activate.html')
+                template = os.path.join(BASE_DIR, 'templates/registration/account_activate.html')
                 message = render_to_string(template, {
                     'user': user,
                     'domain': current_site.domain,
@@ -52,7 +52,7 @@ def register(request):
                 return redirect('/')
     else:
         form = SignUpForm
-    template = os.path.join(BASE_DIR, 'templates\\registration\signup.html')
+    template = os.path.join(BASE_DIR, 'templates/registration/signup.html')
     context = {'form': form}
     return render(request, template, context)
 
@@ -99,7 +99,7 @@ def login(request):
                 return redirect('login')
     else:
         form = LoginForm
-    template = os.path.join(BASE_DIR, "templates\\registration\login.html")
+    template = os.path.join(BASE_DIR, "templates/registration/login.html")
     context = {'form': form}
     return render(request, template, context)
 
@@ -122,6 +122,6 @@ def password_reset(request):
                 return redirect('/')
     else:
         form = PasswordResetForm
-    template = os.path.join(BASE_DIR, "templates\\registration\password_reset_form.html")
+    template = os.path.join(BASE_DIR, "templates/registration/password_reset_form.html")
     context = {'form': form}
     return render(request, template, context)
