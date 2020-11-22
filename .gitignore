@@ -4,3 +4,4 @@ environment_variables.py
 migrations/
 db.sqlite3
 static/
+manage.py
