@@ -6,21 +6,295 @@
 {% block content %}
 <div class="row mb-3">
     <div class="col-md-8 themed-grid-col">
-        <h1 class="text-center">Калькулятор расхода топлива</h1>
-        <br>
+        <h1 class="text-center">Калькуляторы расхода топлива</h1>
+        <br><br>
         <div class="d-flex justify-content-center">
-            <div class="col-10">
+            <div class="form-group col-md-10">
+                <!-- Калькулятор 1 -->
+                <h4 class="text-center">Средний расход и сколько литров можно долить</h4>
+                <br>
                 <form method="post">
-                    {% if flow and volume and delta_volume %}
-                    <p>Реальный расход на 100 км, л: {{ flow }}</p>
-                    <p>Разрешенный расход на 100 км, л: {{ form.cleaned_data.allowed_flow }}</p>
-                    <p>Максимальный объем топлива с учетом разрешенного расхода, л: {{ volume }}</p>
-                    <p>Еще можно долить, л: {{ delta_volume }}</p>
-                    {% endif %}
                     {% csrf_token %}
-                    <td>{{ form | crispy }}</td>
+                    <div class="form-row justify-content-center">
+                        <div class="form-group col-md-6">
+                            <label class="col-form-label">{{ flow_form.division_price.label }}</label>
+                        </div>
+                        <div class="form-group col-md-4">
+                            <div class="input-group">
+                                {{ flow_form.division_price }}
+                                <div class="input-group-append">
+                                    <span class="input-group-text">л</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label class="col-form-label">{{ flow_form.divisions.label }}</label>
+                        </div>
+                        <div class="form-group col-md-4">
+                            <div class="input-group">
+                                {{ flow_form.divisions }}
+                                <div class="input-group-append">
+                                    <span class="input-group-text">шт</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="text-center">или</div>
+                    <br>
+                    <div class="form-row justify-content-center">
+                        <div class="form-group col-md-6">
+                            <label class="col-form-label">{{ flow_form.litres.label }}</label>
+                        </div>
+                        <div class="form-group col-md-4">
+                            <div class="input-group">
+                                {{ flow_form.litres }}
+                                <div class="input-group-append">
+                                    <span class="input-group-text">л</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label class="col-form-label">{{ flow_form.overall_distance.label }}</label>
+                        </div>
+                        <div class="form-group col-md-4">
+                            <div class="input-group">
+                                {{ flow_form.overall_distance }}
+                                <div class="input-group-append">
+                                    <span class="input-group-text">км</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label class="col-form-label">{{ flow_form.allowed_flow.label }}</label>
+                        </div>
+                        <div class="form-group col-md-4">
+                            <div class="input-group">
+                                {{ flow_form.allowed_flow }}
+                                <div class="input-group-append">
+                                    <span class="input-group-text">л/100км</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% if flow and volume %}
+                    <div class="alert alert-dark" role="alert">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+
+                        <div class="row">
+                            <div class="col-md-5">
+                                <label class="col-form-label">Реальный расход</label>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="input-group">
+                                    <input class="form-control ml-sm-3 col-md-3" type="text" value="{{ flow }}" disabled>
+                                    <div class="input-group-append">
+                                        <span class="input-group-text">л/100км</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-5">
+                                <label class="col-form-label">Разрешенный расход</label>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="input-group">
+                                    <input class="form-control ml-sm-3 col-md-3" type="text" value="{{ flow_form.cleaned_data.allowed_flow }}" disabled>
+                                    <div class="input-group-append">
+                                        <span class="input-group-text">л/100км</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-5">
+                                <label class="col-form-label">Максимальный объем</label>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="input-group">
+                                    <input class="form-control ml-sm-3 col-md-3" type="text" value="{{ volume }}" disabled>
+                                    <div class="input-group-append">
+                                        <span class="input-group-text">л</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-5">
+                                <label class="col-form-label">Можно долить</label>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="input-group">
+                                    <input class="form-control ml-sm-3 col-md-3" type="text" value="{{ delta_volume }}" disabled>
+                                    <div class="input-group-append">
+                                        <span class="input-group-text">л</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endif %}
                     <p class="text-center">
-                        <button  type="submit"  class="btn btn-primary btn-lg pull-right">Рассчитать</button>
+                        <button  type="submit"  class="btn btn-primary btn-lg pull-right" name="btn1">Рассчитать</button>
+                    </p>
+                </form>
+                <br>
+                <hr style="border: 1px solid #212529;">
+                <br>
+                <!-- Калькулятор 2 -->
+                <h4 class="text-center">Сколько можно проехать</h4>
+                <br>
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="form-row justify-content-center">
+                        <div class="form-group col-md-6">
+                            <label class="col-form-label">{{ distance_form.litres.label }}</label>
+                        </div>
+                        <div class="form-group col-md-4">
+                            <div class="input-group">
+                                {{ distance_form.litres }}
+                                <div class="input-group-append">
+                                    <span class="input-group-text">л</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label class="col-form-label">{{ distance_form.flow.label }}</label>
+                        </div>
+                        <div class="form-group col-md-4">
+                            <div class="input-group">
+                                {{ distance_form.flow }}
+                                <div class="input-group-append">
+                                    <span class="input-group-text">л/100км</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label class="col-form-label">{{ distance_form.price_per_liter.label }}</label>
+                        </div>
+                        <div class="form-group col-md-4">
+                            <div class="input-group">
+                                {{ distance_form.price_per_liter }}
+                                <div class="input-group-append">
+                                    <span class="input-group-text">руб</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% if distance and litres %}
+                    <div class="alert alert-dark" role="alert">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+
+                        <div class="row">
+                            <div class="col-md-5">
+                                <label class="col-form-label">Можно проехать</label>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="input-group">
+                                    <input class="form-control ml-sm-3 col-md-4" type="text" value="{{ distance }}" disabled>
+                                    <div class="input-group-append">
+                                        <span class="input-group-text">км</span>
+                                    </div>
+                                </div>
+                            </div>
+                            {% if sum %}
+                            <div class="col-md-5">
+                                <label class="col-form-label">Заплатив</label>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="input-group">
+                                    <input class="form-control ml-sm-3 col-md-4" type="text" value="{{ sum }}" disabled>
+                                    <div class="input-group-append">
+                                        <span class="input-group-text">руб</span>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    {% endif %}
+                    <p class="text-center">
+                        <button  type="submit"  class="btn btn-primary btn-lg pull-right" name="btn2">Рассчитать</button>
+                    </p>
+                </form>
+                <br>
+                <hr style="border: 1px solid #212529;">
+                <br>
+                <!-- Калькулятор 3 -->
+                <h4 class="text-center">Сколько нужно топлива на поездку</h4>
+                <br>
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="form-row justify-content-center">
+                        <div class="form-group col-md-6">
+                            <label class="col-form-label">{{ volume_form.distance.label }}</label>
+                        </div>
+                        <div class="form-group col-md-4">
+                            <div class="input-group">
+                                {{ volume_form.distance }}
+                                <div class="input-group-append">
+                                    <span class="input-group-text">км</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label class="col-form-label">{{ volume_form.flow.label }}</label>
+                        </div>
+                        <div class="form-group col-md-4">
+                            <div class="input-group">
+                                {{ distance_form.flow }}
+                                <div class="input-group-append">
+                                    <span class="input-group-text">л/100км</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label class="col-form-label">{{ volume_form.price_per_liter.label }}</label>
+                        </div>
+                        <div class="form-group col-md-4">
+                            <div class="input-group">
+                                {{ volume_form.price_per_liter }}
+                                <div class="input-group-append">
+                                    <span class="input-group-text">руб</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% if total_litres %}
+                    <div class="alert alert-dark" role="alert">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+
+                        <div class="row">
+                            <div class="col-md-5">
+                                <label class="col-form-label">Нужно заправить</label>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="input-group">
+                                    <input class="form-control ml-sm-3 col-md-4" type="text" value="{{ total_litres }}" disabled>
+                                    <div class="input-group-append">
+                                        <span class="input-group-text">л</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-5">
+                                <label class="col-form-label">И заплатить</label>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="input-group">
+                                    <input class="form-control ml-sm-3 col-md-4" type="text" value="{{ sum }}" disabled>
+                                    <div class="input-group-append">
+                                        <span class="input-group-text">руб</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endif %}
+                    <p class="text-center">
+                        <button  type="submit"  class="btn btn-primary btn-lg pull-right" name="btn3">Рассчитать</button>
                     </p>
                 </form>
             </div>

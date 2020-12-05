@@ -9,17 +9,20 @@ class CommentForm(forms.ModelForm):
     name = forms.CharField(
         label="",
         max_length=50,
-        widget=forms.TextInput(attrs={'placeholder': "Представиться..."})
+        widget=forms.TextInput(attrs={'placeholder': "Имя",
+                                      'class': 'form-control'})
     )
     email = forms.EmailField(
         label="",
         max_length=250,
-        widget=forms.EmailInput(attrs={'placeholder': "Написать E-mail..."})
+        widget=forms.EmailInput(attrs={'placeholder': "E-mail",
+                                       'class': 'form-control'})
 
     )
     text = forms.CharField(
         label="",
-        widget=forms.Textarea(attrs={'placeholder': "Написать комментарий...",
+        widget=forms.Textarea(attrs={'placeholder': "Комментарий",
+                                     'class': 'form-control',
                                      'rows': '3'}),
         required=True
     )
@@ -36,16 +39,19 @@ class ContactForm(forms.Form):
     name = forms.CharField(
         label="",
         max_length=50,
-        widget=forms.TextInput(attrs={'placeholder': "Представиться..."})
+        widget=forms.TextInput(attrs={'placeholder': "Имя",
+                                      'class': 'form-control'})
     )
     email = forms.EmailField(
         label="",
         max_length=250,
-        widget=forms.EmailInput(attrs={'placeholder': "Написать E-mail..."})
+        widget=forms.EmailInput(attrs={'placeholder': "E-mail",
+                                       'class': 'form-control'})
     )
     message = forms.CharField(
         label="",
-        widget=forms.Textarea(attrs={'placeholder': "Написать сообщение...",
+        widget=forms.Textarea(attrs={'placeholder': "Сообщение",
+                                     'class': 'form-control',
                                      'rows': '3'}),
         required=True
     )
@@ -53,53 +59,120 @@ class ContactForm(forms.Form):
 
 class FuelCalculatorForm(forms.Form):
 
-    """Форма калькулятора топлива"""
+    """
+    Считает средний расход топлива
+    и
+    показывает сколько литров еще можно долить.
+
+    """
 
     division_price = forms.DecimalField(
-        label="Цена одного деления, л",
+        label="Цена одного деления",
         min_value=0,
         max_digits=9,
         decimal_places=2,
-        widget=forms.NumberInput(attrs={'placeholder': "3.44"}),
+        widget=forms.NumberInput(attrs={'placeholder': "3.44",
+                                        'class': 'form-control'}),
         required=False,
-        help_text="Необязатаельное поле",
     )
     divisions = forms.DecimalField(
         label="Сколько делений потратил?",
         min_value=0,
         max_digits=9,
         decimal_places=2,
-        widget=forms.NumberInput(attrs={'placeholder': "3..."}),
+        widget=forms.NumberInput(attrs={'class': 'form-control'}),
         required=False,
-        help_text="Необязатаельное поле",
     )
     litres = forms.DecimalField(
-        label="Сколько литров ушло на поездку?",
+        label="Сколько литров потратил?",
         min_value=0,
         max_digits=9,
         decimal_places=2,
-        widget=forms.NumberInput(attrs={'placeholder': "Дохуя..."}),
+        widget=forms.NumberInput(attrs={'class': 'form-control'}),
         required=False,
-        help_text="Необязатаельное поле",
     )
     overall_distance = forms.DecimalField(
-        label="А сколько проехал км?",
+        label="Сколько проехал?",
         min_value=0,
         max_digits=9,
         decimal_places=2,
-        widget=forms.NumberInput(attrs={'placeholder': "Может, и не дохуя..."}),
+        widget=forms.NumberInput(attrs={'class': 'form-control'}),
         required=True,
-        help_text="Обязатаельное поле",
     )
     allowed_flow = forms.DecimalField(
-        label="Сколько литров можно затратить на 100км?",
+        label="Какой расход установили в конторе?",
         min_value=0,
         max_digits=9,
         decimal_places=2,
-        widget=forms.NumberInput(attrs={'placeholder': "Обычно 9 или 10..."}),
+        widget=forms.NumberInput(attrs={'placeholder': "9 или 10",
+                                        'class': 'form-control'}),
         required=True,
-        help_text="Обязатаельное поле",
     )
+
+
+class DistanceCalculatorForm(forms.Form):
+    """
+    Считает расстояние на которое хватит заправленного топлива
+
+    """
+
+    litres = forms.DecimalField(
+        label="Сколько заправил?",
+        min_value=0,
+        max_digits=9,
+        decimal_places=2,
+        widget=forms.NumberInput(attrs={'class': 'form-control'}),
+        required=True,
+    )
+    flow = forms.DecimalField(
+        label="Какой расход?",
+        min_value=0,
+        max_digits=9,
+        decimal_places=2,
+        widget=forms.NumberInput(attrs={'class': 'form-control'}),
+        required=True,
+    )
+    price_per_liter = forms.DecimalField(
+        label="Сколько стоит литр?",
+        min_value=0,
+        max_digits=9,
+        decimal_places=2,
+        widget=forms.NumberInput(attrs={'class': 'form-control'}),
+        required=False,
+    )
+
+
+class VolumeCalculatorForm(forms.Form):
+    """
+    Считает необходимый объем топлива на указанное расстояние
+
+    """
+    distance = forms.DecimalField(
+        label="Какое расстояние?",
+        min_value=0,
+        max_digits=9,
+        decimal_places=2,
+        widget=forms.NumberInput(attrs={'class': 'form-control'}),
+        required=True,
+    )
+    flow = forms.DecimalField(
+        label="Какой расход?",
+        min_value=0,
+        max_digits=9,
+        decimal_places=2,
+        widget=forms.NumberInput(attrs={'class': 'form-control'}),
+        required=True,
+    )
+    price_per_liter = forms.DecimalField(
+        label="Сколько стоит литр?",
+        min_value=0,
+        max_digits=9,
+        decimal_places=2,
+        widget=forms.NumberInput(attrs={'class': 'form-control'}),
+        required=True,
+    )
+
+
 
 
 class KFactorCalculatorForm(forms.Form):
@@ -107,19 +180,18 @@ class KFactorCalculatorForm(forms.Form):
     """Форма калькулятора К-фактора"""
 
     flow = forms.DecimalField(
-        label="Максимальный расход Q, т/ч (кг/ч)",
+        label="Максимальный расход Q",
         min_value=0,
         max_digits=11,
         decimal_places=2,
         required=True,
-        help_text="Обязательное поле",
-
+        widget=forms.NumberInput(attrs={'class': 'form-control'}),
     )
     freq = forms.DecimalField(
-        label="Максимальная частота f, Гц",
+        label="Максимальная частота f",
         min_value=0,
         max_digits=11,
         decimal_places=2,
         required=True,
-        help_text="Обязательное поле",
+        widget=forms.NumberInput(attrs={'class': 'form-control'}),
     )

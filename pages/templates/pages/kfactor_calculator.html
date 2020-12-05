@@ -1,21 +1,59 @@
 {% extends "pages/base.html" %}
 {% load static %}
 {% load crispy_forms_tags %}
-
 {% block title %} Рассчитать К-фактор {% endblock %}
 {% block content %}
+<meta name="Description" content="Рассчет К-фактора"/>
+<meta property=og:description content="К-фактор">
 <div class="row mb-3">
     <div class="col-md-8 themed-grid-col">
         <div class="d-flex justify-content-center">
-            <div class="col-10">
+            <div class="form-group col-md-10">
                 <h1 class="text-center">Рассчитать К-фактор</h1>
                 <br>
                 <form method="post">
-                    {% if k_factor %}
-                    <p>К-фактор: {{ k_factor }}</p>
-                    {% endif %}
                     {% csrf_token %}
-                    <td>{{ form | crispy }}</td>
+                    <div class="form-group row justify-content-center">
+
+                            <div class="form-group col-md-6">
+                                <label class="col-form-label">{{ form.flow.label }}</label>
+                            </div>
+                            <div class="form-group col-md-5">
+                                <div class="input-group">
+                                    {{ form.flow }}
+                                    <div class="input-group-append">
+                                        <span class="input-group-text">т/ч (кг/ч)</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label class="col-form-label">{{ form.freq.label }}</label>
+                            </div>
+                            <div class="form-group col-md-5">
+                                <div class="input-group">
+                                    {{ form.freq }}
+                                    <div class="input-group-append">
+                                        <span class="input-group-text">Гц</span>
+                                    </div>
+                                </div>
+                            </div>
+                    </div>
+
+                    {% if k_factor %}
+                    <div class="alert alert-dark" role="alert">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+
+                        <div class="form-inline">
+                            <div class="form-group">
+                                <label for="disabledInput">K-фактор</label>
+                                <input class="form-control ml-sm-3 col-md-6" id="disabledInput" type="text" value="{{ k_factor }}" disabled>
+                            </div>
+                        </div>
+
+                    </div>
+                    {% endif %}
                     <p class="text-center">
                         <button  type="submit"  class="btn btn-primary btn-lg pull-right">Рассчитать</button>
                     </p>
@@ -31,4 +69,5 @@
             </ol>
       </div>
     </div>
+</div>>
 {% endblock %}

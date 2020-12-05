@@ -1,9 +1,13 @@
 # from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from decimal import Decimal
+
+from django.http import HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
 from .models import Post, Comment, About
 from django.views.generic import ListView
-from .forms import CommentForm, ContactForm, FuelCalculatorForm, KFactorCalculatorForm
+from .forms import CommentForm, ContactForm, \
+    FuelCalculatorForm, KFactorCalculatorForm, \
+    DistanceCalculatorForm, VolumeCalculatorForm
 from django.core.mail import send_mail
 from blog.settings import base
 
@@ -32,6 +36,7 @@ def get_post_detail(request, slug):
             new_comment = comment_form.save(commit=False)
             new_comment.post = post
             new_comment.save()
+            return HttpResponseRedirect('#')
     else:
         comment_form = CommentForm() 
     
@@ -100,35 +105,70 @@ def get_fuel(request):
     flow = None
     volume = None
     delta_volume = None
-    if request.method == 'POST':
-        form = FuelCalculatorForm(request.POST)
-        if form.is_valid():
-            overall_distance = form.cleaned_data['overall_distance']
-            allowed_flow = form.cleaned_data['allowed_flow']
-            if form.cleaned_data['division_price'] is None:
+    distance = None
+    sum = None
+    litres = None
+    total_litres = None
+
+    if request.method == 'POST' and 'btn1' in request.POST:
+        flow_form = FuelCalculatorForm(request.POST)
+        if flow_form.is_valid():
+            overall_distance = flow_form.cleaned_data['overall_distance']
+            allowed_flow = flow_form.cleaned_data['allowed_flow']
+            if flow_form.cleaned_data['division_price'] is None:
                 # Если цена деления не задана, задается по умолчанию
                 division_price = Decimal("3.44")
             else:
                 # Иначе читается из формы
-                division_price = form.cleaned_data['division_price']
-            if form.cleaned_data['divisions']:
+                division_price = flow_form.cleaned_data['division_price']
+            if flow_form.cleaned_data['divisions']:
                 # Если задано кол-во делений, высчитывается общий объем
-                divisions = form.cleaned_data['divisions']
+                divisions = flow_form.cleaned_data['divisions']
                 litres = division_price * divisions
             else:
                 # Иначе читается из формы
-                litres = form.cleaned_data['litres']
+                litres = flow_form.cleaned_data['litres']
             flow = round(litres * 100 / overall_distance, 1)
             volume = allowed_flow * overall_distance / 100
             delta_volume = round(volume - litres, 1)
     else:
-        form = FuelCalculatorForm
+        flow_form = FuelCalculatorForm
+
+    if request.method == 'POST' and 'btn2' in request.POST:
+        distance_form = DistanceCalculatorForm(request.POST)
+        if distance_form.is_valid():
+            litres = distance_form.cleaned_data['litres']
+            flow = distance_form.cleaned_data['flow']
+            distance = round(litres * 100 / flow, 1)
+            price_per_liter = distance_form.cleaned_data['price_per_liter']
+            if price_per_liter:
+                sum = round(litres * price_per_liter)
+    else:
+        distance_form = DistanceCalculatorForm
+
+    if request.method == 'POST' and 'btn3' in request.POST:
+        volume_form = VolumeCalculatorForm(request.POST)
+        if volume_form.is_valid():
+            distance = volume_form.cleaned_data['distance']
+            flow = volume_form.cleaned_data['flow']
+            price_per_liter = volume_form.cleaned_data['price_per_liter']
+            total_litres = round(flow * distance / 100, 1)
+            sum = round(total_litres * price_per_liter, 1)
+    else:
+        volume_form = VolumeCalculatorForm
+
     template = 'pages/fuel_calculator.html'
     context = {
-        'form': form,
+        'flow_form': flow_form,
+        'distance_form': distance_form,
+        'volume_form': volume_form,
         'flow': flow,
         'volume': volume,
         'delta_volume': delta_volume,
+        'distance': distance,
+        'total_litres': total_litres,
+        'sum': sum,
+        'litres': litres,
     }
     return render(request, template, context)
 

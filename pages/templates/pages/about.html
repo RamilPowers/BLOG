@@ -2,12 +2,15 @@
 {% load static %}
 {% block title %} Обо мне {% endblock %}
 {% block content %}
+{% if user.is_authenticated %}
 
-
-        <h1 class="text-centere">Обо мне</h1>
+    <h1 class="text-center">Обо мне</h1>
 
     {% for item in about %}
         {% autoescape off %} {{ item.text|linebreaks }} {% endautoescape %}
     {% endfor %}
 
+{% else %}
+     <h1 class="text-center">403 Access Denied</h1>
+{% endif %}
 {% endblock %}

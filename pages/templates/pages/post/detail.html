@@ -38,26 +38,48 @@
         <br>
 
         <form action="." method="post">
-            {{ comment_form | crispy }}
             {% csrf_token %}
-            <p class="lead">
-                <button  type="submit"  class="btn btn-primary btn-lg">Отправить</button>
-            </p>
+            <div class="d-flex justify-content-center">
+                <div class="form-group col-md-10">
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            {{ comment_form.name }}
+                        </div>
+                        <div class="form-group col-md-6">
+                            {{ comment_form.email }}
+                        </div>
+                        <div class="form-group col-md-12">
+                            {{ comment_form.text }}
+                        </div>
+                    </div>
+                    <p class="lead">
+                    <button  type="submit"  class="btn btn-primary btn-lg">Отправить</button>
+                    </p>
+                </div>
+            </div>
         </form>
 
         <br><br>
         {% for comment in comments %}
-            <img src="https://img.icons8.com/doodle/48/000000/user.png"/>
-            <font size="5">
-                {{ comment.name }}
-            </font>
-            <p><font class="text-muted" size="2">{{ comment.created }}</font></p>
-            <p>{{ comment.text|linebreaks }}</p>
+        <div class="container">
+            <div class="row">
+                <div class="col col-md-1">
+                    <img src="https://img.icons8.com/doodle/48/000000/user.png"/>
+                </div>
+                <div class="col col-md-10">
+                    <font size="5"> {{ comment.name }}</font>
+                    <p><font class="text-muted" size="2">{{ comment.created }}</font></p>
+                    <p>{{ comment.text|linebreaks }}</p>
+                </div>
+            </div>
+        </div>
         {% empty %}
-            <img src="https://img.icons8.com/offices/30/000000/pencil.png"/>
-            Здесь пока еще нет комментариев. Будь первым!
+                <img src="https://img.icons8.com/offices/30/000000/pencil.png"/>
+                Здесь пока еще нет комментариев. Будь первым!
         {% endfor %}
+
     </div>
+
     <div class="col-md-4 themed-grid-col">
         <div class="p-4">
             <h3>Почитать еще</h3>
