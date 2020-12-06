@@ -66,30 +66,13 @@ class FuelCalculatorForm(forms.Form):
 
     """
 
-    division_price = forms.DecimalField(
-        label="Цена одного деления",
-        min_value=0,
-        max_digits=9,
-        decimal_places=2,
-        widget=forms.NumberInput(attrs={'placeholder': "3.44",
-                                        'class': 'form-control'}),
-        required=False,
-    )
-    divisions = forms.DecimalField(
-        label="Сколько делений потратил?",
-        min_value=0,
-        max_digits=9,
-        decimal_places=2,
-        widget=forms.NumberInput(attrs={'class': 'form-control'}),
-        required=False,
-    )
     litres = forms.DecimalField(
         label="Сколько литров потратил?",
         min_value=0,
         max_digits=9,
         decimal_places=2,
         widget=forms.NumberInput(attrs={'class': 'form-control'}),
-        required=False,
+        required=True,
     )
     overall_distance = forms.DecimalField(
         label="Сколько проехал?",
@@ -106,7 +89,7 @@ class FuelCalculatorForm(forms.Form):
         decimal_places=2,
         widget=forms.NumberInput(attrs={'placeholder': "9 или 10",
                                         'class': 'form-control'}),
-        required=True,
+        required=False,
     )
 
 
@@ -171,8 +154,6 @@ class VolumeCalculatorForm(forms.Form):
         widget=forms.NumberInput(attrs={'class': 'form-control'}),
         required=True,
     )
-
-
 
 
 class KFactorCalculatorForm(forms.Form):

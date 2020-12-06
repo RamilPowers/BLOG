@@ -1,8 +1,9 @@
 # from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from decimal import Decimal
 
-from django.http import HttpResponseRedirect
-from django.shortcuts import render, get_object_or_404
+from django.http import HttpResponseRedirect, HttpResponse
+from django.shortcuts import render, get_object_or_404, redirect
+
 from .models import Post, Comment, About
 from django.views.generic import ListView
 from .forms import CommentForm, ContactForm, \
@@ -111,30 +112,23 @@ def get_fuel(request):
     total_litres = None
 
     if request.method == 'POST' and 'btn1' in request.POST:
+        calc1_submit = True
         flow_form = FuelCalculatorForm(request.POST)
         if flow_form.is_valid():
             overall_distance = flow_form.cleaned_data['overall_distance']
             allowed_flow = flow_form.cleaned_data['allowed_flow']
-            if flow_form.cleaned_data['division_price'] is None:
-                # Если цена деления не задана, задается по умолчанию
-                division_price = Decimal("3.44")
-            else:
-                # Иначе читается из формы
-                division_price = flow_form.cleaned_data['division_price']
-            if flow_form.cleaned_data['divisions']:
-                # Если задано кол-во делений, высчитывается общий объем
-                divisions = flow_form.cleaned_data['divisions']
-                litres = division_price * divisions
-            else:
-                # Иначе читается из формы
-                litres = flow_form.cleaned_data['litres']
+            litres = flow_form.cleaned_data['litres']
             flow = round(litres * 100 / overall_distance, 1)
-            volume = allowed_flow * overall_distance / 100
-            delta_volume = round(volume - litres, 1)
+            if allowed_flow:
+                volume = round(allowed_flow * overall_distance / 100, 1)
+                delta_volume = round(volume - litres, 1)
+            # return HttpResponseRedirect('#calc1')
     else:
+        calc1_submit = False
         flow_form = FuelCalculatorForm
 
     if request.method == 'POST' and 'btn2' in request.POST:
+        calc2_submit = True
         distance_form = DistanceCalculatorForm(request.POST)
         if distance_form.is_valid():
             litres = distance_form.cleaned_data['litres']
@@ -144,9 +138,11 @@ def get_fuel(request):
             if price_per_liter:
                 sum = round(litres * price_per_liter)
     else:
+        calc2_submit = False
         distance_form = DistanceCalculatorForm
 
     if request.method == 'POST' and 'btn3' in request.POST:
+        calc3_submit = True
         volume_form = VolumeCalculatorForm(request.POST)
         if volume_form.is_valid():
             distance = volume_form.cleaned_data['distance']
@@ -155,7 +151,9 @@ def get_fuel(request):
             total_litres = round(flow * distance / 100, 1)
             sum = round(total_litres * price_per_liter, 1)
     else:
+        calc3_submit = False
         volume_form = VolumeCalculatorForm
+
 
     template = 'pages/fuel_calculator.html'
     context = {
@@ -169,6 +167,9 @@ def get_fuel(request):
         'total_litres': total_litres,
         'sum': sum,
         'litres': litres,
+        'calc1_submit': calc1_submit,
+        'calc2_submit': calc2_submit,
+        'calc3_submit': calc3_submit,
     }
     return render(request, template, context)
 
