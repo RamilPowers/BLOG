@@ -4,11 +4,13 @@ from django.contrib.auth import authenticate, login as auth_login, get_user_mode
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import PasswordResetForm
 from django.contrib.sites.shortcuts import get_current_site
-from django.core.mail import EmailMessage
+from django.core.mail import send_mail
 from django.shortcuts import render, redirect
 from django.template.loader import render_to_string
 from django.utils.encoding import force_bytes, force_text
+from django.utils.html import strip_tags
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
+from blog.settings import base
 from .tokens import account_activation_token
 from account.forms import SignUpForm, LoginForm
 from blog.settings.base import BASE_DIR
@@ -34,19 +36,24 @@ def register(request):
                 user = form.save()
                 user.is_active = False
                 current_site = get_current_site(request)
-                mail_subject = 'Подтвердите регистрацию на' + current_site.domain
+                mail_subject = 'Подтвердите регистрацию на ' + current_site.domain
+                mail_from = base.EMAIL_HOST_USER
+                mail_to = form.cleaned_data.get('email')
                 template = os.path.join(BASE_DIR, 'templates/registration/account_activate.html')
-                message = render_to_string(template, {
+                html_message = render_to_string(template, {
                     'user': user,
                     'domain': current_site.domain,
                     'uid': urlsafe_base64_encode(force_bytes(user.pk)),
                     'token': account_activation_token.make_token(user),
                 })
-                to_email = form.cleaned_data.get('email')
-                email = EmailMessage(
-                    mail_subject, message, to=[to_email]
+                plain_message = strip_tags(html_message)
+                send_mail(
+                    mail_subject,
+                    plain_message,
+                    mail_from,
+                    [mail_to],
+                    html_message=html_message,
                 )
-                email.send()
                 user.save()
                 messages.success(request, 'Вы успешно зарегестрировались. Вам осталось только подтвердить почту')
                 return redirect('/')
@@ -117,7 +124,10 @@ def password_reset(request):
                 messages.error(request, 'Пользователся с таким e-mail не существует')
                 return redirect('password_reset')
             else:
-                form.save(request=request)
+                form.save(
+                    request=request,
+                    html_email_template_name=os.path.join(BASE_DIR, "templates/registration/password_reset_email.html")
+                )
                 messages.success(request, 'На Вашу почту отправлено письмо с дальнейшими инструкциями')
                 return redirect('/')
     else:

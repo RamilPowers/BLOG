@@ -1,5 +1,12 @@
-{% autoescape off %}
-Hi {{ user.username }},
-Please click on the link to confirm your registration,
-http://{{ domain }}{% url 'account_activate' uidb64=uid token=token %}
-{% endautoescape %}
+<br>
+<h2>Привет, {{ user.username }}!</h2>
+<font size="3">
+    <br>
+    <p>Вы успешно зарегестрировались на сайте ramilpowers.ru</p>
+    Пожалуйста, перейдите по ссылке, чтобы подтвердить регистрацию
+    <br>
+    http://{{ domain }}{% url 'account_activate' uidb64=uid token=token %}
+    <br>
+    <br>
+    <p>Данное сообщение сформировано автоматически, пожалуйста, не отвечайте на него.</p>
+</font>
