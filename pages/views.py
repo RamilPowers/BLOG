@@ -180,16 +180,19 @@ def get_kfactor(request):
 
     k_factor = None
     if request.method == 'POST':
+        submit = True
         form = KFactorCalculatorForm(request.POST)
         if form.is_valid():
             flow = form.cleaned_data['flow']
             freq = form.cleaned_data['freq']
             k_factor = round(3600 * freq / flow, 3)
     else:
+        submit = False
         form = KFactorCalculatorForm
     template = 'pages/kfactor_calculator.html'
     context = {
         'form': form,
         'k_factor': k_factor,
+        'submit': submit,
     }
     return render(request, template, context)

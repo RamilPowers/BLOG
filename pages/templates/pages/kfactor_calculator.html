@@ -11,7 +11,18 @@
             <div class="form-group col-md-10">
                 <h1 class="text-center">Рассчитать К-фактор</h1>
                 <br>
-                <form method="post">
+                <h6>
+                    <p>К-фактор - коэффициент, который используется в работе импульсных приборов, в частности - расходомерах.</p>
+                    <p>Коэффициент показывает, какое количество импульсов соответствует одной тонне (м3, кг), прошедшей через расходомер. [имп/т или имп/м3 или имп/кг]</p>
+                </h6>
+                <br>
+
+                <script>
+                    {% if submit %}
+                        window.location.href = "#kfac"
+                    {% endif %}
+                </script>
+                <form id="kfac" method="post">
                     {% csrf_token %}
                     <div class="form-group row justify-content-center">
 
@@ -40,7 +51,7 @@
                     </div>
 
                     {% if k_factor %}
-                    <div class="alert alert-dark" role="alert">
+                    <div class="alert alert-primary" role="alert">
                         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
