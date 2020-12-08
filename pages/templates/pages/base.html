@@ -14,13 +14,22 @@
             <meta property=og:title content="{{ post.title }}">
             <meta property=og:description content="{{ post.description }}">
             <meta property=og:image content="{{ post.image }}">
+        {% elif flow_form %}
+            <meta name="Description" content="Калькуялтор расхода топлива"/>
+            <meta property=og:title content="Рассчитать расход топлива и не только">
+            <meta property=og:description content="Расход топлива, запас хода, стоимость поездки">
+            <meta property=og:image content=http://ramilpowers.ru/media/RamilPowersLogo.png>
+        {% elif form.freq %}
+            <meta name="Description" content="Калькулятор К-фактора"/>
+            <meta property=og:title content="Рассчитать К-фактор">
+            <meta property=og:description content="К-фактор импульсных приборов">
+            <meta property=og:image content=http://ramilpowers.ru/media/RamilPowersLogo.png>
         {% else %}
             <meta name="Description" content="Заметки о Python, Django, промышленной автоматизации и IT"/>
             <meta property=og:title content="Блог RamilPowers.ru">
             <meta property=og:description content="Заметки о Python, Django, промышленной автоматизации и IT">
             <meta property=og:image content=http://ramilpowers.ru/media/RamilPowersLogo.png>
         {% endif %}
-
 
         <link rel=icon href=http://ramilpowers.ru/media/favicon.ico>
 
