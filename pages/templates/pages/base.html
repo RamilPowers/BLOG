@@ -9,15 +9,19 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-        {% if post.description %}
-            <meta name="Description" content="{{ post.description }}"/>
+        {% if post %}
+            <meta name="Description" content="{{ post.meta }}"/>
+            <meta property=og:title content="{{ post.title }}">
+            <meta property=og:description content="{{ post.description }}">
+            <meta property=og:image content="{{ post.image }}">
         {% else %}
             <meta name="Description" content="Заметки о Python, Django, промышленной автоматизации и IT"/>
+            <meta property=og:title content="Блог RamilPowers.ru">
+            <meta property=og:description content="Заметки о Python, Django, промышленной автоматизации и IT">
+            <meta property=og:image content=http://ramilpowers.ru/media/RamilPowersLogo.png>
         {% endif %}
 
-        <meta property=og:title content="Еще один блог об it">
-        <meta property=og:description content="Python, Django, промышленная автоматизация">
-        <meta property=og:image content=http://ramilpowers.ru/media/RamilPowersLogo.png>
+
         <link rel=icon href=http://ramilpowers.ru/media/favicon.ico>
 
         <!-- Bootstrap CSS -->
@@ -83,7 +87,9 @@
         <nav class="nav d-flex justify-content-between">
           <a class="p-2 text-muted" href="{% url 'pages:post_list' %}">Главная</a>
           <a class="p-2 text-muted" href="{% url 'pages:contact' %}">Контакты</a>
-          <a class="p-2 text-muted" href="{% url 'pages:about' %}">Резюме</a>
+          {% if user.is_authenticated %}
+            <a class="p-2 text-muted" href="{% url 'pages:about' %}">Резюме</a>
+          {% endif %}
           <a class="p-2 text-muted" href="{% url 'pages:fuel_calculator' %}">Калькулятор расхода</a>
           <a class="p-2 text-muted" href="{% url 'pages:kfactor_calculator' %}">Калькулятор К-фактора</a>
         </nav>
@@ -98,6 +104,7 @@
                 </button>
             </div>
             {% endfor %}
+        <br>
     {% endif %}
 
         {% block content %}
