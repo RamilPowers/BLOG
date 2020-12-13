@@ -1,16 +1,90 @@
 {% extends "pages/base.html" %}
 {% load static %}
-{% block title %} Обо мне {% endblock %}
+{% block title %} Мое резюме {% endblock %}
 {% block content %}
+<link rel="stylesheet" type="text/css" href="{% static "css/style.css" %}">
 {% if user.is_authenticated %}
-
-    <h1 class="text-center">Обо мне</h1>
-
-    {% for item in about %}
-        {% autoescape off %} {{ item.text|linebreaks }} {% endautoescape %}
-    {% endfor %}
-
+  <div class="contain">
+      <div class="header">
+          <div class="photo">
+              <img src="{% static "img/photo.png"%}">
+          </div>
+          <div class="name">Садыков рамиль <span>Python-разработчик</span></div>
+      </div>
+      <div class="about-person">
+          <div class="brown">
+              <div class="item">
+                <div class="item-header">О себе</div>
+                <ul>
+                  <li>Начинающий Python-разработчик. Хочу развиваться в направлении бэкенда.</li>
+                  <li>Имею опыт коммерческой разработки: интернет-магазин на DRF + Vue.js. </li>
+                  <li>Имею опыт деплоя Django-проектов.</li>
+                  <li>Имею опыт разработки telegram-ботов.</li>
+                  <br>
+                  <li>Быстро обучаем, целеустремлен и усидчив</li>
+                </ul>
+              </div>
+              <div class="item">
+                <div class="item-header">профиль на github</div>
+                <ul>
+                  <li>Посетите мой профиль на GitHub:</li>
+                  <br>
+                  <li>
+                    <a href="https://github.com/RamilPowers">https://github.com/RamilPowers</a>
+                  </li>
+                </ul>
+              </div>
+              <div class="item">
+                <div class="item-header">Свяжитесь со мной</div>
+                <ul>
+                  <li>Моб.: +7 (904) 768-20-10</li>
+                  <br>
+                  <li>E-mail:
+                    <a href="mailto:ingatushuy@gmail.com?subject=Предложение вакансии">ingatushuy@gmail.com</a>
+                  </li>
+                </ul>
+              </div>
+          </div>
+          <div class="white">
+            <div class="item">
+              <div class="item-header">Навыки</div>
+              <ul>
+                <li>Python</li>
+                <li>Django</li>
+                <li>Django Rest Framework</li>
+                <li>Git</li>
+                <li>Vue.js</li>
+                <li>HTML, CSS</li>
+                <li>MSSQL, PostgreSQL, MySQL</li>
+                <br>
+                <li><b>Иностранные языки: </b></li>
+                <li>Английский - А2 (Elementary)</li>
+              </ul>
+            </div>
+            <div class="item">
+              <div class="item-header">Опыт работы</div>
+              <ul>
+                <li><em><span><b>Инженер пуско-наладочных работ</b></span>ЗАО НИЦ «Инкомсистем» | Нефтегазовая отрасль Сентябрь 2017 г. - по н. вр.</em></li>
+                <li>- Разработка человека-машинного интерфейса HMI</li>
+                <li>- Программирование промышленных контроллеров на языках МЭК</li>
+                <li>- Работа с базами данных MSSQL</li>
+                <li>- Подключение и настройка интеллектуальных датчиков</li>
+                <li>- Проведение пуско-наладочных работ систем учета на таких площадках, как Сибур, Роснефть, Таиф-НК и др.</li>
+                <li>- Составление отчетов и рабочей документации</li>
+                <li>- Сдача промышленных объектов в эксплуатацию</li>
+                <li>- Ведение переговоров с заказчиком</li>
+              </ul>
+            </div>
+            <div class="item">
+              <div class="item-header">Образование</div>
+              <ul>
+                <li><em><span><b>КНИТУ КХТИ г. Казань</b></span>Бакалавр, «Информатика и вычислительная техника», 2018 г.</em></li>
+              </ul>
+            </div>
+          </div>
+      </div>
+  </div>
 {% else %}
-     <h1 class="text-center">403 Access Denied</h1>
+  <h1 class="text-center">403 Access Denied</h1>
 {% endif %}
 {% endblock %}
