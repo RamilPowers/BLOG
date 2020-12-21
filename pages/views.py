@@ -16,7 +16,7 @@ class PostListView(ListView):
 
     queryset = Post.objects.filter(status="yes")
     context_object_name = 'posts'
-    paginate_by = 1
+    paginate_by = 6
     template_name = 'pages/post/list.html'
 
 
