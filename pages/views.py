@@ -1,10 +1,7 @@
-# from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-from decimal import Decimal
-
-from django.http import HttpResponseRedirect, HttpResponse
-from django.shortcuts import render, get_object_or_404, redirect
-
-from .models import Post, Comment, About
+from django.contrib import messages
+from django.http import HttpResponseRedirect
+from django.shortcuts import render, get_object_or_404
+from .models import Post, About
 from django.views.generic import ListView
 from .forms import CommentForm, ContactForm, \
     FuelCalculatorForm, KFactorCalculatorForm, \
@@ -79,6 +76,8 @@ def get_contact(request):
             message = f"Прислал: {cd['email']} \nВот текст сообщения: \n{cd['message']}"
             send_mail(subject, message, mail_from, mail_to)
             sent = True
+        else:
+            messages.error(request, 'Докажите, что вы не робот')
     else:
         form = ContactForm()
     template = 'pages/contact.html'

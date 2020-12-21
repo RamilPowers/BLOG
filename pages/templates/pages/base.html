@@ -1,9 +1,13 @@
 <!doctype html>
 {% load static %}
+{% load recaptcha2 %}
 <html lang="ru">
     <head>
         <!-- Title -->
         <title>{% block title %}{% endblock %}</title>
+
+        <!-- Google reCAPTCHA -->
+        {% recaptcha_init %}
 
         <!-- Required meta tags -->
         <meta charset="utf-8">

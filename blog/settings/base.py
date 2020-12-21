@@ -22,6 +22,7 @@ INSTALLED_APPS = [
     'crispy_forms',
     'six',
     'social_django',
+    'snowpenguin.django.recaptcha2',
 ]
 
 MIDDLEWARE = [
@@ -79,9 +80,9 @@ USE_L10N = True
 
 USE_TZ = True
 
-STATIC_ROOT = os.path.join(BASE_DIR, "static/")
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 STATIC_URL = '/static/'
-MEDIA_ROOT = os.path.join(BASE_DIR, '/media/')
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
 
 CKEDITOR_UPLOAD_PATH = "uploads/"
@@ -138,3 +139,6 @@ SOCIAL_AUTH_VK_OAUTH2_SECRET = environment_variables.SOCIAL_AUTH_VK_OAUTH2_SECRE
 SOCIAL_AUTH_VK_OAUTH2_SCOPE = environment_variables.SOCIAL_AUTH_VK_OAUTH2_SCOPE
 SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = environment_variables.SOCIAL_AUTH_GOOGLE_OAUTH2_KEY
 SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = environment_variables.SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET
+
+RECAPTCHA_PRIVATE_KEY = environment_variables.RECAPTCHA_PRIVATE_KEY
+RECAPTCHA_PUBLIC_KEY = environment_variables.RECAPTCHA_PUBLIC_KEY

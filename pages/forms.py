@@ -1,5 +1,7 @@
 from django import forms
 from .models import Comment
+from snowpenguin.django.recaptcha2.fields import ReCaptchaField
+from snowpenguin.django.recaptcha2.widgets import ReCaptchaWidget
 
 
 class CommentForm(forms.ModelForm):
@@ -54,6 +56,9 @@ class ContactForm(forms.Form):
                                      'class': 'form-control',
                                      'rows': '3'}),
         required=True
+    )
+    captcha = ReCaptchaField(
+        widget=ReCaptchaWidget(),
     )
 
 

@@ -1,8 +1,6 @@
 {% extends "pages/base.html" %}
 {% load static %}
-{% load crispy_forms_tags %}
 {% block title %} Напишите мне {% endblock %}
-
 {% block content %}
 <div class="row mb-3">
     <div class="col-md-8 themed-grid-col">
@@ -31,10 +29,12 @@
                     <p class="lead">
                         <button  type="submit"  class="btn btn-dark btn-lg">Связаться</button>
                     </p>
+                    {{ form.captcha }}
                 </div>
             </div>
         </form>
         {% endif %}
+
     </div>
     <div class="col-md-4 themed-grid-col">
         <div class="p-4">
