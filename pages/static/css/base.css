@@ -107,3 +107,12 @@ h1, h2, h3, h4, h5, h6 {
 .blog-footer p:last-child {
   margin-bottom: 0;
 }
+pre {
+    padding: 0px 15px 20px;
+	overflow: auto;
+	overflow-y: hidden;
+	font-size: 12px;
+	line-height: 20px;
+	border: 1px solid #cccccc;
+	background: #eeeeee;
+}
