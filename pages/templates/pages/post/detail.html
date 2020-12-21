@@ -8,7 +8,7 @@
 <div class="row mb-3">
     <div class="col-md-8 themed-grid-col">
         <h1 class="text-center">{{ post.title }}</h1>
-        {{ post.created|date }}
+        <div class="text-center text-muted">{{ post.created|date }}</div>
 
         {% autoescape off %} {{ post.content|linebreaks }} {% endautoescape %}
 
@@ -86,10 +86,8 @@
             <ol class="list-unstyled">
             {% for item in posts %}
                 {% if post.slug != item.slug %}
-                    <li><a href="{{ post.get_absolute_url }}">{{ item.title }}</a></li>
+                    <li><a href="{{ item.get_absolute_url }}">{{ item.title }}</a></li>
                 {% endif %}
-            {% empty %}
-                <a href="идти-нахуй">А нихуя и нет больше</a>
             {% endfor %}
             </ol>
         </div>
