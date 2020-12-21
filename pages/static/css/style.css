@@ -1,0 +1,159 @@
+@import url("https://fonts.googleapis.com/css2?family=Podkova:wght@600&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Lato&display=swap");
+
+
+.contain {
+  width: 800px;
+  max-width: 100%;
+  margin: auto;
+  font-family: "Lato", sans-serif;
+  background: #cccccc;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  background: #373741;
+  padding-top: 47px;
+  margin-top: -20px;
+}
+.header .name {
+  font-family: "Podkova", serif;
+  font-size: 39px;
+  letter-spacing: 1.7px;
+  text-align: center;
+  text-transform: uppercase;
+  color: #e0c3ad;
+  font-weight: 700;
+  width: 485px;
+  max-width: 100%;
+}
+.header .name span {
+  font-size: 17px;
+  display: block;
+  text-transform: none;
+  color: #fff;
+  margin-top: 25px;
+  font-family: "Lato", sans-serif;
+}
+.header .photo {
+  width: 315px;
+  max-width: 100%;
+  margin-bottom: -38px;
+}
+.header .photo img {
+  width: 240px;
+  max-width: 100%;
+  display: block;
+  margin-left: auto;
+  position: relative;
+  right: 25px;
+}
+
+.about-person {
+  display: flex;
+}
+.about-person .item .item-header {
+  font-family: "Podkova", serif;
+  text-transform: uppercase;
+  height: 38px;
+  display: flex;
+  align-items: center;
+  padding: 0 12px;
+  color: #e0c3ad;
+  background: #373741;
+  line-height: 100%;
+}
+.about-person .item b {
+  font-size: 15px;
+}
+.about-person .item ul {
+  padding: 0 12px;
+  margin-bottom: 0;
+  margin-top: 19px;
+}
+.about-person .item ul li {
+  list-style: none;
+  line-height: 1.5;
+  font-size: 14px;
+}
+.about-person .item ul li em {
+  margin-bottom: 5px;
+  display: block;
+}
+.about-person .item ul li em b {
+  display: block;
+  margin-bottom: 5px;
+  font-style: normal;
+}
+.about-person .brown {
+  background: #e0c3ad;
+  width: 335px;
+  max-width: 100%;
+  padding: 0 35px;
+}
+.about-person .brown .item:first-child {
+  margin-top: 83px;
+}
+.about-person .brown .item {
+  margin-top: 70px;
+}
+.about-person .white {
+  width: 465px;
+  max-width: 100%;
+  padding: 0 35px;
+  background: #fff;
+  padding-bottom: 80px;
+}
+.about-person .white .item:first-child li {
+  font-size: 15.5px;
+}
+.about-person .white .item {
+  margin-top: 38px;
+}
+
+@media screen and (max-width: 750px) {
+  .header {
+    display: block;
+    text-align: center;
+    padding-top: 27px;
+    padding-bottom: 38px;
+    margin-top: 0px;
+  }
+  .header .photo {
+    margin: auto;
+    width: 200px;
+  }
+  .header .photo img {
+    width: 100%;
+    margin: auto;
+    margin-bottom: 0;
+    position: static;
+  }
+  .header .name {
+    margin: 15px auto 0 auto;
+  }
+  .header .name span {
+    margin-top: 5px;
+  }
+
+  .about-person {
+    display: block;
+  }
+  .about-person .brown, .about-person .white {
+    width: 100%;
+    background: #fff;
+    padding: 0 0 25px 0;
+  }
+  .about-person .brown .item, .about-person .white .item {
+    margin-top: 25px;
+  }
+
+  .about-person .brown .item:first-child {
+    margin-top: 0;
+  }
+
+  .about-person .white .item:first-child {
+    margin-top: 0;
+  }
+}
