@@ -3,7 +3,6 @@
 {% block title %} Мое резюме {% endblock %}
 {% block content %}
 <link rel="stylesheet" type="text/css" href="{% static "css/style.css" %}">
-{% if user.is_authenticated %}
   <div class="contain">
       <div class="header">
           <div class="photo">
@@ -84,7 +83,4 @@
           </div>
       </div>
   </div>
-{% else %}
-  <h1 class="text-center">403 Access Denied</h1>
-{% endif %}
 {% endblock %}
